@@ -1,11 +1,11 @@
 {
-    "name": "danny_kang/hello_package",
-    "description": "this is a hello php that you can use to print \"Hello World!\"",
+    "name": "dannykang/system_log_package",
+    "description": "record system logs",
     "type": "library",
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Kang\\HelloPackage\\": "src/"
+            "Kang\\SystemLogPackage\\": "src/"
         }
     },
     "authors": [
