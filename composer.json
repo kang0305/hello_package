@@ -1,5 +1,5 @@
 {
-    "name": "kang/hello_package",
+    "name": "danny_kang/hello_package",
     "description": "this is a hello php that you can use to print \"Hello World!\"",
     "type": "library",
     "license": "MIT",
