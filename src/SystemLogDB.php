@@ -5,7 +5,7 @@ namespace Kang\HelloPackage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
-class SystemLog
+class SystemLogDB
 {
     public static string $database;
     public static string $table;
