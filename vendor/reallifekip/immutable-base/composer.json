@@ -1,0 +1,26 @@
+{
+  "name": "reallifekip/immutable-base",
+  "description": "Lightweight abstract classes for building immutable PHP objects.",
+  "type": "library",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "ReallifeKip\\ImmutableBase\\": "src/"
+    }
+  },
+  "require": {
+    "php": "^8.0"
+  },
+  "authors": [
+    {
+      "name": "ReallifeKip",
+      "email": "bill402099@gmail.com"
+    }
+  ],
+  "keywords": [
+    "dto",
+    "data-transfer-object",
+    "value-object",
+    "immutable"
+  ]
+}

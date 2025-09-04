@@ -3,18 +3,20 @@
     "description": "record system logs",
     "type": "library",
     "license": "MIT",
-    "autoload": {
-        "psr-4": {
-            "Kang\\SystemLogPackage\\": "src/"
-        }
-    },
     "authors": [
         {
-            "name": "kang"
+            "name": "DannyKang"
         }
     ],
     "minimum-stability": "stable",
     "require": {
-        "php": "^8.0"
+        "php": "^8.0",
+        "reallifekip/immutable-base": "^2.3",
+        "laravel/framework": "^12.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Kang\\SystemLogPackage\\": "src/"
+        }
     }
 }
