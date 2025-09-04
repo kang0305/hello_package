@@ -97,14 +97,14 @@ class SystemLogHelper
 
     private static function combineRefCode($data): string
     {
-        $module = $data->route()->getAction()['default']['module'];
+        $module = $data->route()->getAction()['defaults']['module'];
 
         return "{$module}-001-001";
     }
 
     private static function combineMessage($data, $module): string
     {
-        $subItem = $data->route()->getAction()['default']['sub_item'] ?? null;
+        $subItem = $data->route()->getAction()['defaults']['sub_item'] ?? null;
         $action = $data->action;
 
         return "{$action}{$module}{$subItem}";
