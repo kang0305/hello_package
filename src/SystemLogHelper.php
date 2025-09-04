@@ -26,7 +26,7 @@ class SystemLogHelper
         $systemLogDTO = new ApiSystemLogDTO([
             'type' => 'api',
             'level' => self::getLogLevel($response->getStatusCode()),
-            'module' => $data->route()->getAction()['default']['module'],
+            'module' => $data->route()->getAction()['defaults']['module'],
             'ref_code' => self::combineRefCode($data),
             'message' => $data->action,
             'user_id' => isset($user_id) ? $user_id : (Auth::check() ? Auth::id() : null),
@@ -50,7 +50,7 @@ class SystemLogHelper
         $systemLogDTO = new WebSystemLogDTO([
             'type' => 'web',
             'level' => self::getLogLevel($response->getStatusCode()),
-            'module' => $module === null ? $data->route()->getAction()['default']['module'] : $module,
+            'module' => $module === null ? $data->route()->getAction()['defaults']['module'] : $module,
             'ref_code' => self::combineRefCode($data),
             'message' => self::combineMessage($data, $module),
             'user_id' => isset($user_id) ? $user_id : (Auth::check() ? Auth::id() : null),
