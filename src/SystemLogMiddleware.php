@@ -1,9 +1,9 @@
 <?php
 
-namespace Kang\HelloPackage;
+namespace Kang\SystemLogPackage;
 
 use Illuminate\Http\Request;
-use Kang\HelloPackage\SystemLogHelper;
+use Kang\SystemLogPackage\SystemLogHelper;
 use Illuminate\Support\Facades\Auth;
 
 class SystemLogMiddleware

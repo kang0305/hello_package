@@ -1,6 +1,6 @@
 <?php
 
-namespace Kang\HelloPackage;
+namespace Kang\SystemLogPackage;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;

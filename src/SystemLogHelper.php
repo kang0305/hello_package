@@ -1,11 +1,11 @@
 <?php 
 
-namespace Kang\HelloPackage;
+namespace Kang\SystemLogPackage;
 
 use Illuminate\Http\Request;
-use Kang\HelloPackage\DTO\ApiSystemLogDTO;
-use Kang\HelloPackage\DTO\WebSystemLogDTO;
-use Kang\HelloPackage\DTO\ScheduleSystemLogDTO;
+use Kang\SystemLogPackage\DTO\ApiSystemLogDTO;
+use Kang\SystemLogPackage\DTO\WebSystemLogDTO;
+use Kang\SystemLogPackage\DTO\ScheduleSystemLogDTO;
 use Illuminate\Support\Facades\Auth;
 
 class SystemLogHelper

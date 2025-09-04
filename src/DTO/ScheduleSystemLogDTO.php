@@ -1,8 +1,8 @@
 <?php
 
-namespace Kang\HelloPackage\DTO;
+namespace Kang\SystemLogPackage\DTO;
 
-use Kang\HelloPackage\SystemLogDTO;
+use Kang\SystemLogPackage\DTO\SystemLogDTO;
 use ReallifeKip\ImmutableBase\DataTransferObject;
 
 #[DataTransferObject]
