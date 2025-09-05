@@ -23,7 +23,7 @@ class SystemLogMiddleware
 
         $response = $next($request);
 
-        SystemLogHelper::formatSystemLog($request, $preLogoutUserId, $response, null);
+        SystemLogHelper::formatSystemLog($request, $preLogoutUserId, $response);
 
         return $response;
     }
