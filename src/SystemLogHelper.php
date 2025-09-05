@@ -41,18 +41,14 @@ class SystemLogHelper
 
     private static function webSystemLog(Request $data, ?int $user_id, $response): array 
     {
-        $module = null;
-        
-        if ($data->route()->getAction()['prefix'] === '') {
-            $module =  $data->module;      
-        }
+        $module = self::getModule($data);
 
         $systemLogDTO = new WebSystemLogDTO([
             'type' => 'web',
             'level' => self::getLogLevel($response->getStatusCode()),
-            'module' => $module === null ? $data->route()->getAction()['defaults']['module'] : $module,
-            'ref_code' => self::combineRefCode($data),
-            'message' => self::combineMessage($data, $module),
+            'module' => $module,
+            'ref_code' => self::combineRefCode($module === null ? $data->route()->getAction()['defaults']['module'] : $module),
+            'message' => self::combineMessage($data),
             'user_id' => isset($user_id) ? $user_id : (Auth::check() ? Auth::id() : null),
             'ip_address' => $data->ip(),
             'request_path' => $data->url(),
@@ -86,6 +82,17 @@ class SystemLogHelper
         return str_starts_with($uri, 'api');
     }
 
+    private static function getModule($data): ?string
+    {
+        $module = $data->module;
+        
+        if ($module === null) {
+            $module =  $data->route()->getAction()['defaults']['module'];
+        }
+
+        return $module;
+    }
+
     private static function getLogLevel(int $statusCode): string
     {
         return match (true) {
@@ -95,19 +102,17 @@ class SystemLogHelper
         };
     }
 
-    private static function combineRefCode($data): string
+    private static function combineRefCode($module): string
     {
-        $module = $data->route()->getAction()['defaults']['module'];
-
         return "{$module}-001-001";
     }
 
-    private static function combineMessage($data, $module): string
+    private static function combineMessage($data): string
     {
         $subItem = $data->route()->getAction()['defaults']['sub_item'] ?? null;
         $action = $data->action;
 
-        return "{$action}{$module}{$subItem}";
+        return "{$action}";
     }
 
     private static function getRawPayload(Request $data): string
