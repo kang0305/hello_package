@@ -13,17 +13,17 @@ class SystemLogMiddleware
      */
     public function handle(Request $request, \Closure $next)
     {
-        $preLogoutUserId = null;
+        $preSaveUserId = null;
 
         if (str_starts_with($request->route()->uri(), 'api')) {
-            $preLogoutUserId = $request->user()?->id ?? null;
+            $preSaveUserId = $request->user()?->id ?? null;
         } else {
-            $preLogoutUserId = Auth::check() ? Auth::id() : null;
+            $preSaveUserId = Auth::check() ? Auth::id() : null;
         }
 
         $response = $next($request);
 
-        SystemLogHelper::formatSystemLog($request, $preLogoutUserId, $response);
+        SystemLogHelper::formatSystemLog($request, $preSaveUserId, $response);
 
         return $response;
     }
