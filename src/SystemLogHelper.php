@@ -70,11 +70,12 @@ class SystemLogHelper
 
     private static function getModule($data): ?string
     {
-        if(!isset($data->route()->getAction()['defaults'])) {
+        if(!isset($data->route()->getAction()['defaults']) && $data->module === null) {
+
             throw new \Exception('請在路徑中設置defaults');
         }
 
-        if(!isset($data->route()->getAction()['defaults']['module'])) {
+        if(!isset($data->route()->getAction()['defaults']['module']) && $data->module === null) {
             throw new \Exception('請在defaults內設置module，如：\'defaults\' => [\'module\' => \'XXX\']');
         }
 
