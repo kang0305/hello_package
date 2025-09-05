@@ -5,12 +5,12 @@ namespace Kang\SystemLogPackage;
 use Illuminate\Http\Request;
 use Kang\SystemLogPackage\DTO\ApiSystemLogDTO;
 use Kang\SystemLogPackage\DTO\WebSystemLogDTO;
-use Kang\SystemLogPackage\DTO\ScheduleSystemLogDTO;
+use Kang\SystemLogPackage\SystemLogDB;
 use Illuminate\Support\Facades\Auth;
 
 class SystemLogHelper
 {
-    public static function formatSystemLog(Request $data, ?int $user_id, $response, ?bool $isSchedule): array
+    public static function formatSystemLog(Request $data, ?int $user_id, $response): array
     {
         if (self::isApiRequest($data->route()->uri())) {
             $systemLog = self::apiSystemLog($data, $user_id, $response);
@@ -18,16 +18,20 @@ class SystemLogHelper
             $systemLog = self::webSystemLog($data, $user_id, $response);
         }
 
+        SystemLogDB::insert($systemLog);
+
         return $systemLog;
     }
 
     private static function apiSystemLog(Request $data, ?int $user_id, $response): array 
     {
+        $module = self::getModule($data);
+
         $systemLogDTO = new ApiSystemLogDTO([
             'type' => 'api',
             'level' => self::getLogLevel($response->getStatusCode()),
-            'module' => $data->route()->getAction()['defaults']['module'],
-            'ref_code' => self::combineRefCode($data),
+            'module' => $module,
+            'ref_code' => self::combineRefCode($module),
             'message' => $data->action,
             'user_id' => isset($user_id) ? $user_id : (Auth::check() ? Auth::id() : null),
             'ip_address' => $data->ip(),
@@ -55,26 +59,8 @@ class SystemLogHelper
             'user_agent' => $data->header('User-Agent'),
             'raw_payload' => self::getRawPayload($data),
         ]);
-
+        // dd($systemLogDTO);
         return $systemLogDTO->toArray();
-    }
-
-    public static function scheduleSystemLog(Request $data, $module, $ref_code, $response): array
-    {
-        $scheduleSystemLog = new ScheduleSystemLogDTO([
-            'type' => 'schedule',
-            'level' => self::getLogLevel($response['status']),
-            'module' => $module,
-            'ref_code' => $ref_code,
-            'message' => $response['message'],
-            'user_id' => null,
-            'ip_address' => $data->ip(),
-            'request_path' => $data->url(),
-            'user_agent' => $data->header('User-Agent'),
-            'raw_payload' => self::getRawPayload($data),
-        ]);
-
-        return $scheduleSystemLog->toArray();
     }
 
     private static function isApiRequest($uri): bool
@@ -84,13 +70,7 @@ class SystemLogHelper
 
     private static function getModule($data): ?string
     {
-        $module = $data->module;
-        
-        if ($module === null) {
-            $module =  $data->route()->getAction()['defaults']['module'];
-        }
-
-        return $module;
+        return $data->module ?: $data->route()->getAction()['defaults']['module'];
     }
 
     private static function getLogLevel(int $statusCode): string

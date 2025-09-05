@@ -8,9 +8,15 @@ use Illuminate\Support\Facades\Schema;
 
 class SystemLogDB
 {
-    public static string $database;
-    public static string $table;
-    public static Model $model;
+    private static string $database;
+    private static string $table;
+    private static Model $model;
+    public static function initDatabase(string $database, string $table, Model $model): void
+    {
+        self::$database = $database;
+        self::$table = $table;
+        self::$model = $model;
+    }
     public static function insert(array $data): void
     {
         if (DB::connection(self::$database)->getPdo() === null) {
