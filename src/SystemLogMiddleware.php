@@ -4,6 +4,7 @@ namespace Kang\SystemLogPackage;
 
 use Illuminate\Http\Request;
 use Kang\SystemLogPackage\SystemLogHelper;
+use Kang\SystemLogPackage\SystemLogDB;
 use Illuminate\Support\Facades\Auth;
 
 class SystemLogMiddleware
@@ -23,7 +24,9 @@ class SystemLogMiddleware
 
         $response = $next($request);
 
-        SystemLogHelper::formatSystemLog($request, $preLogoutUserId, $response, null);
+        $systemLog = SystemLogHelper::formatSystemLog($request, $preLogoutUserId, $response, null);
+
+        SystemLogDB::insert($systemLog);
 
         return $response;
     }
