@@ -46,7 +46,7 @@ class SystemLogHelper
     private static function webSystemLog(Request $data, ?int $user_id, $response): array 
     {
         $module = self::getModule($data);
-
+        
         $systemLogDTO = new WebSystemLogDTO([
             'type' => 'web',
             'level' => self::getLogLevel($response->getStatusCode()),
@@ -59,7 +59,7 @@ class SystemLogHelper
             'user_agent' => $data->header('User-Agent'),
             'raw_payload' => self::getRawPayload($data),
         ]);
-        // dd($systemLogDTO);
+
         return $systemLogDTO->toArray();
     }
 
@@ -70,6 +70,14 @@ class SystemLogHelper
 
     private static function getModule($data): ?string
     {
+        if(!isset($data->route()->getAction()['defaults'])) {
+            throw new \Exception('請在路徑中設置defaults');
+        }
+
+        if(!isset($data->route()->getAction()['defaults']['module'])) {
+            throw new \Exception('請在defaults內設置module，如：\'defaults\' => [\'module\' => \'XXX\']');
+        }
+
         return $data->module ?: $data->route()->getAction()['defaults']['module'];
     }
 
